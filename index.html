@@ -1,0 +1,249 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  .ct-wrap { padding: 2rem 0; font-family: 'DM Sans', var(--font-sans); }
+
+  .ct-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .ct-event-name {
+    font-size: 22px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--color-text-primary);
+    margin-bottom: 2rem;
+  }
+
+  .ct-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .ct-card {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.25rem 0.75rem 1rem;
+    text-align: center;
+    border: 0.5px solid var(--color-border-tertiary);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ct-number {
+    font-family: 'DM Mono', var(--font-mono);
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--color-text-primary);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .ct-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .ct-sep {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -2rem;
+    margin-bottom: 2rem;
+  }
+
+  .ct-progress-bar {
+    height: 2px;
+    background: var(--color-border-tertiary);
+    border-radius: 2px;
+    margin: 0 0 2rem;
+    overflow: hidden;
+  }
+
+  .ct-progress-fill {
+    height: 100%;
+    background: var(--color-text-primary);
+    border-radius: 2px;
+    transition: width 1s linear;
+  }
+
+  .ct-config {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+  }
+
+  .ct-config-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .ct-config-row:last-child { margin-bottom: 0; }
+
+  .ct-config label {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    min-width: 80px;
+  }
+
+  .ct-config input[type="datetime-local"],
+  .ct-config input[type="text"] {
+    flex: 1;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    font-family: inherit;
+  }
+
+  .ct-btn {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-text-primary);
+    color: var(--color-background-primary);
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .ct-btn:hover { opacity: 0.85; }
+
+  .ct-done {
+    text-align: center;
+    padding: 3rem 0;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .ct-done-sub {
+    text-align: center;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin-top: 0.5rem;
+  }
+</style>
+
+<div class="ct-wrap">
+  <h2 class="sr-only">Countdown-Timer bis zu einem Starttermin</h2>
+
+  <p class="ct-title">Countdown bis zum Start</p>
+  <p class="ct-event-name" id="event-display">Mein Ereignis</p>
+
+  <div id="countdown-area">
+    <div class="ct-grid">
+      <div class="ct-card"><div class="ct-number" id="days">--</div><div class="ct-label">Tage</div></div>
+      <div class="ct-card"><div class="ct-number" id="hours">--</div><div class="ct-label">Stunden</div></div>
+      <div class="ct-card"><div class="ct-number" id="minutes">--</div><div class="ct-label">Minuten</div></div>
+      <div class="ct-card"><div class="ct-number" id="seconds">--</div><div class="ct-label">Sekunden</div></div>
+    </div>
+    <div class="ct-progress-bar"><div class="ct-progress-fill" id="progress" style="width:0%"></div></div>
+  </div>
+
+  <div id="done-area" style="display:none">
+    <div class="ct-done">🎉 Es ist soweit!</div>
+    <div class="ct-done-sub" id="done-msg"></div>
+  </div>
+
+  <div class="ct-config">
+    <div class="ct-config-row">
+      <label for="event-name">Bezeichnung</label>
+      <input type="text" id="event-name" value="Mein Ereignis" placeholder="Ereignisname">
+    </div>
+    <div class="ct-config-row">
+      <label for="target-dt">Starttermin</label>
+      <input type="datetime-local" id="target-dt">
+    </div>
+    <div class="ct-config-row" style="justify-content:flex-end">
+      <button class="ct-btn" onclick="applyConfig()">Anwenden</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let targetMs = null;
+  let startMs = null;
+  let timerInterval = null;
+
+  function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+
+  function tick() {
+    if (!targetMs) return;
+    const now = Date.now();
+    const diff = targetMs - now;
+
+    if (diff <= 0) {
+      ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).textContent = '00');
+      document.getElementById('progress').style.width = '100%';
+      document.getElementById('countdown-area').style.display = 'none';
+      document.getElementById('done-area').style.display = 'block';
+      document.getElementById('done-msg').textContent = 'Der Starttermin für „' + document.getElementById('event-display').textContent + '" ist erreicht.';
+      clearInterval(timerInterval);
+      return;
+    }
+
+    document.getElementById('countdown-area').style.display = 'block';
+    document.getElementById('done-area').style.display = 'none';
+
+    const totalSec = diff / 1000;
+    const d = Math.floor(totalSec / 86400);
+    const h = Math.floor((totalSec % 86400) / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = Math.floor(totalSec % 60);
+
+    document.getElementById('days').textContent = pad(d);
+    document.getElementById('hours').textContent = pad(h);
+    document.getElementById('minutes').textContent = pad(m);
+    document.getElementById('seconds').textContent = pad(s);
+
+    if (startMs) {
+      const total = targetMs - startMs;
+      const elapsed = now - startMs;
+      const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
+      document.getElementById('progress').style.width = pct.toFixed(2) + '%';
+    }
+  }
+
+  function applyConfig() {
+    const name = document.getElementById('event-name').value.trim() || 'Mein Ereignis';
+    const dtVal = document.getElementById('target-dt').value;
+    if (!dtVal) return;
+
+    document.getElementById('event-display').textContent = name;
+    targetMs = new Date(dtVal).getTime();
+    startMs = Date.now();
+
+    clearInterval(timerInterval);
+    tick();
+    timerInterval = setInterval(tick, 1000);
+  }
+
+  const now = new Date();
+  now.setDate(now.getDate() + 7);
+  now.setSeconds(0, 0);
+  const pad2 = n => String(n).padStart(2, '0');
+  const defaultVal = now.getFullYear() + '-' + pad2(now.getMonth()+1) + '-' + pad2(now.getDate()) + 'T' + pad2(now.getHours()) + ':' + pad2(now.getMinutes());
+  document.getElementById('target-dt').value = defaultVal;
+  applyConfig();
+</script>
